@@ -1,0 +1,8 @@
+syntax: regexp
+.*~$
+^deps.mk$
+^mochiweb-git/
+^ebin
+^dist
+^deps
+\.stamp$
