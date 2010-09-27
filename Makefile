@@ -33,7 +33,6 @@ $(PACKAGE_DIR)/clean_RM:=$(CHECKOUT_DIR) $(CHECKOUT_DIR)/stamp $(EBIN_DIR)/mochi
 $(PACKAGE_DIR)/clean::
 	rm -rf $($@_RM)
 
-$(info $(TESTABLEGOALS))
 ifneq "$(strip $(patsubst clean%,,$(patsubst %clean,,$(TESTABLEGOALS))))" ""
 include $(CHECKOUT_DIR)/stamp
 
