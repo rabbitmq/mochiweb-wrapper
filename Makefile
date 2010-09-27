@@ -16,8 +16,7 @@ $(CHECKOUT_DIR):
 # we run the make_app.escript early just so that we can grab out the mochiweb version
 $(CHECKOUT_DIR)/stamp: | $(CHECKOUT_DIR)
 	rm -f $@
-	cd $(@D) && echo COMMIT_DATE:=$$(date -u +"%Y%m%d" --date="$$(git log --since=$($(@D)_REVISION) -n 1 --date=iso --format=format:"%cd")") > $@
-	cd $(@D) && echo COMMIT_SHORT_HASH:=$$(git log --since=$($(@D)_REVISION) -n 1 --format=format:"%h") >> $@
+	cd $(@D) && echo COMMIT_SHORT_HASH:=$$(git log -n 1 --format=format:"%h" HEAD) >> $@
 	$(@D)/support/make_app.escript $(@D)/src/mochiweb.app.src $@.tmp "" ""
 	echo $$(cat $@.tmp | grep {vsn | sed -e 's/^.\+{vsn,\"/MOCHIWEB_VERSION:=/; s/\".*$$//') >> $@
 	rm $@.tmp
@@ -37,7 +36,7 @@ $(PACKAGE_DIR)/clean::
 ifneq "$(strip $(patsubst clean%,,$(patsubst %clean,,$(TESTABLEGOALS))))" ""
 include $(CHECKOUT_DIR)/stamp
 
-VERSION:=$(MOCHIWEB_VERSION)-rmq$(GLOBAL_VERSION)-$(COMMIT_DATE)-git$(COMMIT_SHORT_HASH)
+VERSION:=$(MOCHIWEB_VERSION)-rmq$(GLOBAL_VERSION)-git$(COMMIT_SHORT_HASH)
 $(EBIN_DIR)/mochiweb.app_VERSION:=$(VERSION)
 endif
 endif
