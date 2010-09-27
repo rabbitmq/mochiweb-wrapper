@@ -18,7 +18,7 @@ $(CHECKOUT_DIR)/stamp: | $(CHECKOUT_DIR)
 	rm -f $@
 	cd $(@D) && echo COMMIT_SHORT_HASH:=$$(git log -n 1 --format=format:"%h" HEAD) > $@
 	$(@D)/support/make_app.escript $(@D)/src/mochiweb.app.src $@.tmp "" ""
-	echo $$(cat $@.tmp | grep {vsn | sed -e 's/^.\+{vsn,\"/MOCHIWEB_VERSION:=/; s/\".*$$//') >> $@
+	echo $$(cat $@.tmp | grep {vsn | sed -e 's/^.\+{vsn, *\"/MOCHIWEB_VERSION:=/; s/\".*$$//') >> $@
 	rm $@.tmp
 
 .PHONY: $(EBIN_DIR)/mochiweb.app
