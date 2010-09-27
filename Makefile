@@ -22,6 +22,7 @@ $(CHECKOUT_DIR)/stamp: | $(CHECKOUT_DIR)
 	echo $$(cat $@.tmp | grep {vsn | sed -e 's/^.\+{vsn,\"/MOCHIWEB_VERSION:=/; s/\".*$$//') >> $@
 	rm $@.tmp
 
+.PHONY: $(EBIN_DIR)/mochiweb.app
 $(EBIN_DIR)/mochiweb.app_MAKE_APP:=$(CHECKOUT_DIR)/support/make_app.escript
 $(EBIN_DIR)/mochiweb.app_MODULES:=$(patsubst %.erl,%,$(notdir $(wildcard $($(PACKAGE_DIR)_SOURCE_DIR)/*.erl)))
 $(EBIN_DIR)/mochiweb.app: $(SOURCE_DIR)/mochiweb.app.src | $(EBIN_DIR)
