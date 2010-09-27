@@ -27,7 +27,7 @@ $(EBIN_DIR)/mochiweb.app_MAKE_APP:=$(CHECKOUT_DIR)/support/make_app.escript
 $(EBIN_DIR)/mochiweb.app_MODULES:=$(patsubst %.erl,%,$(notdir $(wildcard $($(PACKAGE_DIR)_SOURCE_DIR)/*.erl)))
 $(EBIN_DIR)/mochiweb.app: $(SOURCE_DIR)/mochiweb.app.src | $(EBIN_DIR)
 	$($@_MAKE_APP) $< $@.tmp "" "$($@_MODULES)"
-	sed -e 's/{vsn,\"[^\"]\+\"/{vsn,\"$($@_VERSION)\"/' < $@.tmp > $@
+	sed -e 's/{vsn, *\"[^\"]\+\"/{vsn,\"$($@_VERSION)\"/' < $@.tmp > $@
 	rm $@.tmp
 
 $(PACKAGE_DIR)/clean_RM:=$(CHECKOUT_DIR) $(CHECKOUT_DIR)/stamp $(EBIN_DIR)/mochiweb.app
