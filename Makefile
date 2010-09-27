@@ -1,9 +1,11 @@
+APP_NAME:=mochiweb
+
 ifdef PACKAGE_DIR
 UPSTREAM_GIT:=http://github.com/mochi/mochiweb.git
 REVISION:=9a53dbd7b2c52eb5b9d4
 
 EBIN_DIR:=$(PACKAGE_DIR)/ebin
-CHECKOUT_DIR:=$(PACKAGE_DIR)/mochiweb-git
+CHECKOUT_DIR:=$(PACKAGE_DIR)/$(APP_NAME)-git
 SOURCE_DIR:=$(CHECKOUT_DIR)/src
 INCLUDE_DIR:=$(CHECKOUT_DIR)/src
 
@@ -21,15 +23,15 @@ $(CHECKOUT_DIR)/stamp: | $(CHECKOUT_DIR)
 	echo $$(cat $@.tmp | grep {vsn | sed -e 's/^.\+{vsn, *\"/MOCHIWEB_VERSION:=/; s/\".*$$//') >> $@
 	rm $@.tmp
 
-.PHONY: $(EBIN_DIR)/mochiweb.app
-$(EBIN_DIR)/mochiweb.app_MAKE_APP:=$(CHECKOUT_DIR)/support/make_app.escript
-$(EBIN_DIR)/mochiweb.app_MODULES:=$(patsubst %.erl,%,$(notdir $(wildcard $($(PACKAGE_DIR)_SOURCE_DIR)/*.erl)))
-$(EBIN_DIR)/mochiweb.app: $(SOURCE_DIR)/mochiweb.app.src | $(EBIN_DIR)
+.PHONY: $(EBIN_DIR)/$(APP_NAME).app
+$(EBIN_DIR)/$(APP_NAME).app_MAKE_APP:=$(CHECKOUT_DIR)/support/make_app.escript
+$(EBIN_DIR)/$(APP_NAME).app_MODULES:=$(patsubst %.erl,%,$(notdir $(wildcard $($(PACKAGE_DIR)_SOURCE_DIR)/*.erl)))
+$(EBIN_DIR)/$(APP_NAME).app: $(SOURCE_DIR)/$(APP_NAME).app.src | $(EBIN_DIR)
 	$($@_MAKE_APP) $< $@.tmp "" "$($@_MODULES)"
 	sed -e 's/{vsn, *\"[^\"]\+\"/{vsn,\"$($@_VERSION)\"/' < $@.tmp > $@
 	rm $@.tmp
 
-$(PACKAGE_DIR)/clean_RM:=$(CHECKOUT_DIR) $(CHECKOUT_DIR)/stamp $(EBIN_DIR)/mochiweb.app
+$(PACKAGE_DIR)/clean_RM:=$(CHECKOUT_DIR) $(CHECKOUT_DIR)/stamp $(EBIN_DIR)/$(APP_NAME).app
 $(PACKAGE_DIR)/clean::
 	rm -rf $($@_RM)
 
@@ -37,7 +39,7 @@ ifneq "$(strip $(patsubst clean%,,$(patsubst %clean,,$(TESTABLEGOALS))))" ""
 include $(CHECKOUT_DIR)/stamp
 
 VERSION:=$(MOCHIWEB_VERSION)-rmq$(GLOBAL_VERSION)-git$(COMMIT_SHORT_HASH)
-$(EBIN_DIR)/mochiweb.app_VERSION:=$(VERSION)
+$(EBIN_DIR)/$(APP_NAME).app_VERSION:=$(VERSION)
 endif
 endif
 
