@@ -23,14 +23,6 @@ $(CHECKOUT_DIR)/stamp: | $(CHECKOUT_DIR)
 	echo $$(cat $@.tmp | grep {vsn | sed -e 's/^.\+{vsn, *\"/MOCHIWEB_VERSION:=/; s/\".*$$//') >> $@
 	rm $@.tmp
 
-.PHONY: $(EBIN_DIR)/$(APP_NAME).app
-$(EBIN_DIR)/$(APP_NAME).app_MAKE_APP:=$(CHECKOUT_DIR)/support/make_app.escript
-$(EBIN_DIR)/$(APP_NAME).app_MODULES:=$(patsubst %.erl,%,$(notdir $(wildcard $($(PACKAGE_DIR)_SOURCE_DIR)/*.erl)))
-$(EBIN_DIR)/$(APP_NAME).app: $(SOURCE_DIR)/$(APP_NAME).app.src | $(EBIN_DIR)
-	$($@_MAKE_APP) $< $@.tmp "" "$($@_MODULES)"
-	sed -e 's/{vsn, *\"[^\"]\+\"/{vsn,\"$($@_VERSION)\"/' < $@.tmp > $@
-	rm $@.tmp
-
 $(PACKAGE_DIR)/clean_RM:=$(CHECKOUT_DIR) $(CHECKOUT_DIR)/stamp $(EBIN_DIR)/$(APP_NAME).app
 $(PACKAGE_DIR)/clean::
 	rm -rf $($@_RM)
@@ -39,7 +31,17 @@ ifneq "$(strip $(patsubst clean%,,$(patsubst %clean,,$(TESTABLEGOALS))))" ""
 include $(CHECKOUT_DIR)/stamp
 
 VERSION:=$(MOCHIWEB_VERSION)-rmq$(GLOBAL_VERSION)-git$(COMMIT_SHORT_HASH)
-$(EBIN_DIR)/$(APP_NAME).app_VERSION:=$(VERSION)
+
+$(EBIN_DIR)/$(APP_NAME).app.$(VERSION)_VERSION:=$(VERSION)
+$(EBIN_DIR)/$(APP_NAME).app.$(VERSION)_MAKE_APP:=$(CHECKOUT_DIR)/support/make_app.escript
+$(EBIN_DIR)/$(APP_NAME).app.$(VERSION)_MODULES:=$(patsubst %.erl,%,$(notdir $(wildcard $($(PACKAGE_DIR)_SOURCE_DIR)/*.erl)))
+$(EBIN_DIR)/$(APP_NAME).app.$(VERSION): $(SOURCE_DIR)/$(APP_NAME).app.src | $(EBIN_DIR)
+	$($@_MAKE_APP) $< $@.tmp "" "$($@_MODULES)"
+	sed -e 's/{vsn, *\"[^\"]\+\"/{vsn,\"$($@_VERSION)\"/' < $@.tmp > $@
+	rm $@.tmp
+
+$(PACKAGE_DIR)_APP:=true
+
 endif
 endif
 
