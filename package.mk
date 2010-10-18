@@ -3,7 +3,6 @@ APP_NAME:=mochiweb
 UPSTREAM_GIT:=http://github.com/mochi/mochiweb.git
 REVISION:=9a53dbd7b2c52eb5b9d4
 
-EBIN_DIR:=$(PACKAGE_DIR)/ebin
 CHECKOUT_DIR:=$(PACKAGE_DIR)/$(APP_NAME)-git
 SOURCE_DIR:=$(CHECKOUT_DIR)/src
 INCLUDE_DIR:=$(CHECKOUT_DIR)/src
