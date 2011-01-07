@@ -17,7 +17,8 @@ $(CHECKOUT_DIR)/.done:
 	rm -rf $(CHECKOUT_DIR)
 	git clone $(UPSTREAM_GIT) $(CHECKOUT_DIR)
 	cd $(CHECKOUT_DIR) && git checkout $(REVISION)
-	patch -d $(CHECKOUT_DIR) -p1 < $(CHECKOUT_DIR)-12b3.patch
+	patch -d $(CHECKOUT_DIR) -p1 < $(PACKAGE_DIR)/mochiweb-12b3.patch
+	patch -d $(CHECKOUT_DIR) -p1 < $(PACKAGE_DIR)/10-crypto.patch
 	touch $$@
 
 $(SOURCE_DIR)/$(APP_NAME).app.src: $(CHECKOUT_DIR)/.done
