@@ -4,8 +4,8 @@ UPSTREAM_GIT:=http://github.com/mochi/mochiweb.git
 REVISION:=9a53dbd7b2c52eb5b9d4
 
 CHECKOUT_DIR:=$(PACKAGE_DIR)/$(APP_NAME)-git
-SOURCE_DIR:=$(CHECKOUT_DIR)/src
-INCLUDE_DIR:=$(CHECKOUT_DIR)/src
+SOURCE_DIRS+=$(CHECKOUT_DIR)/src
+INCLUDE_DIRS+=$(CHECKOUT_DIR)/src
 
 $(eval $(call safe_include,$(PACKAGE_DIR)/version.mk))
 
@@ -21,10 +21,10 @@ $(CHECKOUT_DIR)/.done:
 	patch -d $(CHECKOUT_DIR) -p1 < $(PACKAGE_DIR)/10-crypto.patch
 	touch $$@
 
-$(SOURCE_DIR)/$(APP_NAME).app.src: $(CHECKOUT_DIR)/.done
+$(CHECKOUT_DIR)/src/$(APP_NAME).app.src: $(CHECKOUT_DIR)/.done
 
-$(CHECKOUT_DIR)/$(APP_NAME).app.orig: $(SOURCE_DIR)/$(APP_NAME).app.src
-	$(CHECKOUT_DIR)/support/make_app.escript $$< $$@ "" "`cd $(SOURCE_DIR) && echo *.erl | sed 's|\.erl||g'`"
+$(CHECKOUT_DIR)/$(APP_NAME).app.orig: $(CHECKOUT_DIR)/src/$(APP_NAME).app.src
+	$(CHECKOUT_DIR)/support/make_app.escript $$< $$@ "" "`cd $(CHECKOUT_DIR)/src && echo *.erl | sed 's|\.erl||g'`"
 
 $(PACKAGE_DIR)/version.mk: $(CHECKOUT_DIR)/$(APP_NAME).app.orig
 	echo COMMIT_SHORT_HASH:=`git --git-dir=$(CHECKOUT_DIR)/.git log -n 1 --format=format:"%h" HEAD` >$$@
