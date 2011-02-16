@@ -2,7 +2,7 @@ APP_NAME:=mochiweb
 
 UPSTREAM_GIT:=http://github.com/mochi/mochiweb.git
 UPSTREAM_REVISION:=9a53dbd7b2c52eb5b9d4
-RETAIN_UPSTREAM_VERSION:=true
+RETAIN_ORIGINAL_VERSION:=true
 WRAPPER_PATCHES:=mochiweb-12b3.patch 10-crypto.patch
 
 # internal.hrl is used by webmachine
