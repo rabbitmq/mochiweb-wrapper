@@ -10,7 +10,7 @@ UPSTREAM_INCLUDE_DIRS+=$(CLONE_DIR)/src
 
 ORIGINAL_APP_FILE:=$(CLONE_DIR)/$(APP_NAME).app
 
-define package_targets
+define package_rules
 
 $(CLONE_DIR)/src/$(APP_NAME).app.src: $(CLONE_DIR)/.done
 
