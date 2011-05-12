@@ -9,6 +9,7 @@ WRAPPER_PATCHES:=mochiweb-12b3.patch 10-crypto.patch
 UPSTREAM_INCLUDE_DIRS+=$(CLONE_DIR)/src
 
 ORIGINAL_APP_FILE:=$(CLONE_DIR)/$(APP_NAME).app
+DO_NOT_GENERATE_APP_FILE=true
 
 define package_rules
 
