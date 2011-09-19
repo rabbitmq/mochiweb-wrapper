@@ -1,5 +1,6 @@
 APP_NAME:=mochiweb
 
+RELEASABLE:=true
 UPSTREAM_GIT:=http://github.com/mochi/mochiweb.git
 UPSTREAM_REVISION:=9a53dbd7b2c52eb5b9d4
 RETAIN_ORIGINAL_VERSION:=true
