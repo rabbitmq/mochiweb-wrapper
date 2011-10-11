@@ -21,4 +21,8 @@ $(ORIGINAL_APP_FILE): $(CLONE_DIR)/src/$(APP_NAME).app.src
 $(PACKAGE_DIR)+clean::
 	rm -rf $(ORIGINAL_APP_FILE)
 
+# This rule is run *before* the one in do_package.mk
+$(PLUGINS_SRC_DIST_DIR)/$(PACKAGE_DIR)/.srcdist_done::
+	cp $(CLONE_DIR)/LICENSE $(PACKAGE_DIR)/LICENSE-MIT-Mochi
+
 endef
