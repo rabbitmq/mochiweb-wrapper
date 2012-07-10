@@ -3,7 +3,10 @@ APP_NAME:=mochiweb
 UPSTREAM_GIT:=http://github.com/mochi/mochiweb.git
 UPSTREAM_REVISION:=d541e9a0f36c00dcadc2e589f20e47fbf46fc76f
 RETAIN_ORIGINAL_VERSION:=true
-WRAPPER_PATCHES:=10-build-on-R12B-5.patch 20-MAX_RECV_BODY.patch
+WRAPPER_PATCHES:=10-build-on-R12B-5.patch \
+		 20-MAX_RECV_BODY.patch \
+		 30-remove-crypto-ssl-dependencies.patch \
+		 40-remove-compiler-syntax_tools-dependencies.patch
 
 # internal.hrl is used by webmachine
 UPSTREAM_INCLUDE_DIRS+=$(CLONE_DIR)/src
