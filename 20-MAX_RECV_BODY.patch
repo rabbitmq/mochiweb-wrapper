@@ -1,6 +1,8 @@
+diff --git a/src/mochiweb_request.erl b/src/mochiweb_request.erl
+index 5d89662..6765ab0 100644
 --- a/src/mochiweb_request.erl
 +++ b/src/mochiweb_request.erl
-@@ -44,7 +44,7 @@
+@@ -42,7 +42,7 @@
  -define(IDLE_TIMEOUT, 300000).
  
  % Maximum recv_body() length of 1MB
