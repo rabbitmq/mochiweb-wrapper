@@ -6,7 +6,8 @@ RETAIN_ORIGINAL_VERSION:=true
 WRAPPER_PATCHES:=10-build-on-R12B-5.patch \
 		 20-MAX_RECV_BODY.patch \
 		 30-remove-crypto-ssl-dependencies.patch \
-		 40-remove-compiler-syntax_tools-dependencies.patch
+		 40-remove-compiler-syntax_tools-dependencies.patch \
+		 50-remove-mochijson2.patch
 
 # internal.hrl is used by webmachine
 UPSTREAM_INCLUDE_DIRS+=$(CLONE_DIR)/src
