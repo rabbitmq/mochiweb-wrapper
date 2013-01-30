@@ -7,7 +7,8 @@ WRAPPER_PATCHES:=10-build-on-R12B-5.patch \
 		 20-MAX_RECV_BODY.patch \
 		 30-remove-crypto-ssl-dependencies.patch \
 		 40-remove-compiler-syntax_tools-dependencies.patch \
-		 50-remove-json.patch
+		 50-remove-json.patch \
+		 60-parameterised-modules-r16a.patch
 
 # internal.hrl is used by webmachine
 UPSTREAM_INCLUDE_DIRS+=$(CLONE_DIR)/src
@@ -28,5 +29,13 @@ $(PACKAGE_DIR)+clean::
 # This rule is run *before* the one in do_package.mk
 $(PLUGINS_SRC_DIST_DIR)/$(PACKAGE_DIR)/.srcdist_done::
 	cp $(CLONE_DIR)/LICENSE $(PACKAGE_DIR)/LICENSE-MIT-Mochi
+
+$(CLONE_DIR)/ebin/mochifmt_records.beam: $(CLONE_DIR)/ebin/pmod_pt.beam
+
+$(CLONE_DIR)/ebin/mochifmt_std.beam: $(CLONE_DIR)/ebin/pmod_pt.beam
+
+$(CLONE_DIR)/ebin/mochifmt_request.beam: $(CLONE_DIR)/ebin/pmod_pt.beam
+
+$(CLONE_DIR)/ebin/mochifmt_response.beam: $(CLONE_DIR)/ebin/pmod_pt.beam
 
 endef
