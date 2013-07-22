@@ -182,10 +182,10 @@ index 193c7c7..665d0f9 100644
      charref(binary_to_list(B));
  charref([$#, C | L]) when C =:= $x orelse C =:= $X ->
 diff --git a/src/mochiweb_http.erl b/src/mochiweb_http.erl
-index 4730446..9327f70 100644
+index 931ecd0..ae6410f 100644
 --- a/src/mochiweb_http.erl
 +++ b/src/mochiweb_http.erl
-@@ -109,12 +109,12 @@ call_body({M, F}, Req) ->
+@@ -121,12 +121,12 @@ call_body({M, F}, Req) ->
  call_body(Body, Req) ->
      Body(Req).
  
@@ -200,3 +200,104 @@ index 4730446..9327f70 100644
  handle_invalid_request(Socket, Request, RevHeaders) ->
      Req = new_request(Socket, Request, RevHeaders),
      Req:respond({400, [], []}),
+diff --git a/src/mochiweb_session.erl b/src/mochiweb_session.erl
+index ac5d66b..ddf7c46 100644
+--- a/src/mochiweb_session.erl
++++ b/src/mochiweb_session.erl
+@@ -21,11 +21,11 @@
+ 
+ %% @doc Generates a secure encrypted binary convining all the parameters. The
+ %% expiration time must be a 32-bit integer.
+--spec generate_session_data(
+-        ExpirationTime :: expiration_time(),
+-        Data :: iolist(),
+-        FSessionKey :: key_fun(),
+-        ServerKey :: iolist()) -> binary().
++%% -spec generate_session_data(
++%%        ExpirationTime :: expiration_time(),
++%%        Data :: iolist(),
++%%        FSessionKey :: key_fun(),
++%%        ServerKey :: iolist()) -> binary().
+ generate_session_data(ExpirationTime, Data, FSessionKey, ServerKey)
+   when is_integer(ExpirationTime), is_function(FSessionKey)->
+     BData = ensure_binary(Data),
+@@ -39,11 +39,11 @@ generate_session_data(ExpirationTime, Data, FSessionKey, ServerKey)
+ %% @doc Convenience wrapper for generate_session_data that returns a
+ %% mochiweb cookie with "id" as the key, a max_age of 20000 seconds,
+ %% and the current local time as local time.
+--spec generate_session_cookie(
+-        ExpirationTime :: expiration_time(),
+-        Data :: iolist(),
+-        FSessionKey :: key_fun(),
+-        ServerKey :: iolist()) -> header().
++%% -spec generate_session_cookie(
++%%        ExpirationTime :: expiration_time(),
++%%        Data :: iolist(),
++%%        FSessionKey :: key_fun(),
++%%        ServerKey :: iolist()) -> header().
+ generate_session_cookie(ExpirationTime, Data, FSessionKey, ServerKey)
+   when is_integer(ExpirationTime), is_function(FSessionKey)->
+     CookieData = generate_session_data(ExpirationTime, Data,
+@@ -55,13 +55,13 @@ generate_session_cookie(ExpirationTime, Data, FSessionKey, ServerKey)
+                                 calendar:universal_time())}]).
+ 
+ %% TODO: This return type is messy to express in the type system.
+--spec check_session_cookie(
+-        ECookie :: binary(),
+-        ExpirationTime :: string(),
+-        FSessionKey :: key_fun(),
+-        ServerKey :: iolist()) ->
+-    {Success :: boolean(),
+-     ExpTimeAndData :: [integer() | binary()]}.
++%% -spec check_session_cookie(
++    %%     ECookie :: binary(),
++    %%     ExpirationTime :: string(),
++    %%     FSessionKey :: key_fun(),
++    %%     ServerKey :: iolist()) ->
++    %% {Success :: boolean(),
++    %%  ExpTimeAndData :: [integer() | binary()]}.
+ check_session_cookie(ECookie, ExpirationTime, FSessionKey, ServerKey)
+   when is_binary(ECookie), is_integer(ExpirationTime),
+        is_function(FSessionKey) ->
+@@ -83,7 +83,7 @@ check_session_cookie(_ECookie, _ExpirationTime, _FSessionKey, _ServerKey) ->
+     {false, []}.
+ 
+ %% 'Constant' time =:= operator for binary, to mitigate timing attacks.
+--spec eq(binary(), binary()) -> boolean().
++%% -spec eq(binary(), binary()) -> boolean().
+ eq(A, B) when is_binary(A) andalso is_binary(B) ->
+     eq(A, B, 0).
+ 
+@@ -94,27 +94,27 @@ eq(<<>>, <<>>, 0) ->
+ eq(_As, _Bs, _Acc) ->
+     false.
+ 
+--spec ensure_binary(iolist()) -> binary().
++%% -spec ensure_binary(iolist()) -> binary().
+ ensure_binary(B) when is_binary(B) ->
+     B;
+ ensure_binary(L) when is_list(L) ->
+     iolist_to_binary(L).
+ 
+--spec encrypt_data(binary(), binary()) -> binary().
++%% -spec encrypt_data(binary(), binary()) -> binary().
+ encrypt_data(Data, Key) ->
+     IV = crypto:rand_bytes(16),
+     Crypt = crypto:aes_cfb_128_encrypt(Key, IV, Data),
+     <<IV/binary, Crypt/binary>>.
+ 
+--spec decrypt_data(binary(), binary()) -> binary().
++%% -spec decrypt_data(binary(), binary()) -> binary().
+ decrypt_data(<<IV:16/binary, Crypt/binary>>, Key) ->
+     crypto:aes_cfb_128_decrypt(Key, IV, Crypt).
+ 
+--spec gen_key(iolist(), iolist()) -> binary().
++%% -spec gen_key(iolist(), iolist()) -> binary().
+ gen_key(ExpirationTime, ServerKey)->
+     crypto:md5_mac(ServerKey, [ExpirationTime]).
+ 
+--spec gen_hmac(iolist(), binary(), iolist(), binary()) -> binary().
++%% -spec gen_hmac(iolist(), binary(), iolist(), binary()) -> binary().
+ gen_hmac(ExpirationTime, Data, SessionKey, Key) ->
+     crypto:sha_mac(Key, [ExpirationTime, Data, SessionKey]).
+ 

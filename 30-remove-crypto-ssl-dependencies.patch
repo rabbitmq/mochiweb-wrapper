@@ -53,7 +53,7 @@ index dda7863..f64876d 100644
      ?assertEqual(
         true,
 diff --git a/src/mochiweb.app.src b/src/mochiweb.app.src
-index 56875e3..e0af899 100644
+index 8d75a3a..c98d8a0 100644
 --- a/src/mochiweb.app.src
 +++ b/src/mochiweb.app.src
 @@ -5,5 +5,5 @@
@@ -63,21 +63,8 @@ index 56875e3..e0af899 100644
 -  {applications, [kernel, stdlib, crypto, inets, ssl, xmerl,
 +  {applications, [kernel, stdlib, inets, xmerl,
                    compiler, syntax_tools]}]}.
-diff --git a/src/mochiweb.erl b/src/mochiweb.erl
-index 250beb5..b7f0500 100644
---- a/src/mochiweb.erl
-+++ b/src/mochiweb.erl
-@@ -187,7 +187,7 @@ do_POST(Transport, Size, Times) ->
-                 end,
-     TestReqs = [begin
-                     Path = "/stuff/" ++ integer_to_list(N),
--                    Body = crypto:rand_bytes(Size),
-+                    Body = mochiweb_util:rand_bytes(Size)),
-                     #treq{path=Path, body=Body, xreply=Body}
-                 end || N <- lists:seq(1, Times)],
-     ClientFun = new_client_fun('POST', TestReqs),
 diff --git a/src/mochiweb_multipart.erl b/src/mochiweb_multipart.erl
-index f03bea7..10894a9 100644
+index a83a88c..a4857d6 100644
 --- a/src/mochiweb_multipart.erl
 +++ b/src/mochiweb_multipart.erl
 @@ -38,7 +38,7 @@ parts_to_body([{Start, End, Body}], ContentType, Size) ->
@@ -90,7 +77,7 @@ index f03bea7..10894a9 100644
  %% @spec parts_to_multipart_body([bodypart()], ContentType::string(),
  %%                               Size::integer(), Boundary::string()) ->
 diff --git a/src/mochiweb_util.erl b/src/mochiweb_util.erl
-index 82ec7f0..ccbcaef 100644
+index 4d39990..a0bc2bc 100644
 --- a/src/mochiweb_util.erl
 +++ b/src/mochiweb_util.erl
 @@ -13,7 +13,7 @@
@@ -102,7 +89,7 @@ index 82ec7f0..ccbcaef 100644
  
  -define(PERCENT, 37).  % $\%
  -define(FULLSTOP, 46). % $\.
-@@ -575,6 +575,12 @@ make_io(Integer) when is_integer(Integer) ->
+@@ -581,6 +581,12 @@ make_io(Integer) when is_integer(Integer) ->
  make_io(Io) when is_list(Io); is_binary(Io) ->
      Io.
  

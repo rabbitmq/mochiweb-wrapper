@@ -112,7 +112,7 @@ index 6b20e41..0000000
 -    ok.
 --endif.
 diff --git a/src/mochiweb.app.src b/src/mochiweb.app.src
-index e0af899..d0c2697 100644
+index c98d8a0..4a6808e 100644
 --- a/src/mochiweb.app.src
 +++ b/src/mochiweb.app.src
 @@ -5,5 +5,4 @@
